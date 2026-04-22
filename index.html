@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>دامة الملكية | لعبة الداما الملكية الفاخرة</title>
+    <title>دامة الملكية | لعبة الداما الملكية الفاخرة - ملك يلتهم بلا حدود</title>
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -25,7 +25,6 @@
             position: relative;
         }
 
-        /* تأثيرات ضوئية خلفية */
         body::before {
             content: '';
             position: fixed;
@@ -196,7 +195,6 @@
             border: 1px solid gold;
         }
 
-        /* لوحة التهنئة والفائز */
         .winner-overlay {
             position: fixed;
             top: 0;
@@ -322,7 +320,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // متغيرات الصوت (تأثيرات صوتية باستخدام Web Audio API)
+    // متغيرات الصوت
     let audioCtx = null;
     let soundEnabled = true;
     function playSound(type) {
@@ -360,7 +358,6 @@
     const BOARD_SIZE = 8;
     let cellSize = 65;
 
-    // تأثيرات ضوئية عند اللعب
     function flashEffect(color) {
         const flashDiv = document.createElement('div');
         flashDiv.style.position = 'fixed';
@@ -376,7 +373,6 @@
         setTimeout(() => flashDiv.remove(), 120);
     }
 
-    // دالة عرض لوحة الفائز أو الخاسر بإيموجيات
     function showWinnerLoserModal(winnerRole, loserRole) {
         const isWinnerHost = (winnerRole === 'host');
         const winnerName = isWinnerHost ? 'المضيف الملك' : 'الضيف البطل';
@@ -416,7 +412,6 @@
         document.getElementById('closeWinModal').onclick = () => modal.remove();
     }
 
-    // دالة إنشاء رقعة جديدة
     function initBoardArray() {
         let board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(0));
         for (let row = 0; row < 3; row++) {
@@ -431,10 +426,12 @@
         }
         return board;
     }
+    
     function promoteToKing(board, row, col, pieceType) {
         if (pieceType === 1 && row === BOARD_SIZE-1) { board[row][col] = 3; playSound('king'); flashEffect('#ffbb33'); }
         if (pieceType === 2 && row === 0) { board[row][col] = 4; playSound('king'); flashEffect('#ffcc66'); }
     }
+    
     function countPieces(board) {
         let host = 0, guest = 0;
         for(let i=0;i<BOARD_SIZE;i++) for(let j=0;j<BOARD_SIZE;j++) {
@@ -444,7 +441,7 @@
         return {host, guest};
     }
 
-    // حركات الأكل
+    // ** نواة الملك الجديدة: يأكل في أي اتجاه بمسافة غير محدودة عبر أي عدد من الخانات (يجب وجود خصم واحد بالضبط في مسار مستقيم ثم خلية فارغة بعدها)
     function getCaptureMovesForPiece(board, row, col, playerType) {
         let piece = board[row][col];
         if(piece === 0) return [];
@@ -452,44 +449,75 @@
         if((playerType === 'host' && !isHostPiece) || (playerType === 'guest' && isHostPiece)) return [];
         let isKing = (piece === 3 || piece === 4);
         let moves = [];
-        let directions = [[-1,-1],[-1,1],[1,-1],[1,1]];
-        if(!isKing) {
-            let forwardDir = (piece === 1 || piece === 3) ? 1 : -1;
-            directions = [[forwardDir,-1],[forwardDir,1]];
-        }
-        for(let [dr, dc] of directions){
-            let midRow = row + dr, midCol = col + dc;
-            let jumpRow = row + dr*2, jumpCol = col + dc*2;
-            if(jumpRow>=0 && jumpRow<BOARD_SIZE && jumpCol>=0 && jumpCol<BOARD_SIZE){
-                let midPiece = board[midRow]?.[midCol];
-                let targetPiece = board[jumpRow][jumpCol];
-                if(midPiece !== 0 && targetPiece === 0){
-                    let isEnemy = (isHostPiece && (midPiece === 2 || midPiece === 4)) || (!isHostPiece && (midPiece === 1 || midPiece === 3));
-                    if(isEnemy) moves.push({toRow: jumpRow, toCol: jumpCol, capturedRow: midRow, capturedCol: midCol});
-                }
-            }
-        }
-        if(isKing){
-            for(let [dr, dc] of [[-1,-1],[-1,1],[1,-1],[1,1]]){
-                for(let step=1; step<=2; step++){
-                    let midRow = row + dr*step, midCol = col + dc*step;
-                    let jumpRow = row + dr*(step+1), jumpCol = col + dc*(step+1);
-                    if(jumpRow<0 || jumpRow>=BOARD_SIZE || jumpCol<0 || jumpCol>=BOARD_SIZE) break;
+        
+        // الاتجاهات الأربعة المائلة
+        const directions = [[-1,-1],[-1,1],[1,-1],[1,1]];
+        
+        if (!isKing) {
+            // البيادق العادية: خطوة للأمام فقط
+            let forwardDir = (piece === 1) ? 1 : -1;
+            for (let dc of [-1, 1]) {
+                let midRow = row + forwardDir, midCol = col + dc;
+                let jumpRow = row + forwardDir*2, jumpCol = col + dc*2;
+                if (jumpRow>=0 && jumpRow<BOARD_SIZE && jumpCol>=0 && jumpCol<BOARD_SIZE) {
                     let midPiece = board[midRow]?.[midCol];
                     let targetPiece = board[jumpRow][jumpCol];
-                    if(midPiece !== 0 && targetPiece === 0){
+                    if (midPiece !== 0 && targetPiece === 0) {
                         let isEnemy = (isHostPiece && (midPiece === 2 || midPiece === 4)) || (!isHostPiece && (midPiece === 1 || midPiece === 3));
-                        if(isEnemy){
-                            if(!moves.some(m => m.toRow === jumpRow && m.toCol === jumpCol))
-                                moves.push({toRow: jumpRow, toCol: jumpCol, capturedRow: midRow, capturedCol: midCol});
+                        if (isEnemy) moves.push({toRow: jumpRow, toCol: jumpCol, capturedRow: midRow, capturedCol: midCol});
+                    }
+                }
+            }
+        } 
+        else { // ** الملك: يأكل في أي اتجاه وبأي مسافة طالما هناك خصم واحد بالضبط في المسار المباشر ثم خلية فارغة بعدها **
+            for (let [dr, dc] of directions) {
+                let foundEnemy = false;
+                let enemyRow = -1, enemyCol = -1;
+                // المسح على طول الخط
+                for (let step = 1; step < BOARD_SIZE; step++) {
+                    let nr = row + dr * step;
+                    let nc = col + dc * step;
+                    if (nr < 0 || nr >= BOARD_SIZE || nc < 0 || nc >= BOARD_SIZE) break;
+                    let cell = board[nr][nc];
+                    if (cell !== 0) {
+                        // وُجد قطعة
+                        let isEnemy = (isHostPiece && (cell === 2 || cell === 4)) || (!isHostPiece && (cell === 1 || cell === 3));
+                        if (!foundEnemy && isEnemy) {
+                            // أول قطعة في هذا المسار هي عدو
+                            foundEnemy = true;
+                            enemyRow = nr;
+                            enemyCol = nc;
+                            // لا نكسر الحلقة، نستمر للبحث عن مربع فارغ بعد العدو مباشرةً
+                        } else {
+                            // إما قطعة صديق أو عدو ثاني - هذا المسار غير صالح للأكل
                             break;
-                        } else break;
-                    } else if(midPiece !== 0) break;
+                        }
+                    } 
+                    else if (foundEnemy) {
+                        // وجدنا عدو من قبل والخلية الحالية فارغة => يمكن القفز إليها
+                        moves.push({
+                            toRow: nr,
+                            toCol: nc,
+                            capturedRow: enemyRow,
+                            capturedCol: enemyCol
+                        });
+                        // نستمر لنجد خانات أبعد أيضاً؟ بقوانين الداما الملكية إذا أكل الملك يمكنه التوقف عند أول خانة فارغة بعد العدو، لكن دعم الإلتقاط المتعدد لاحقاً سيتعامل مع الاستمرارية.
+                        // نسمح بالقفز لأي مربع فارغ خلف العدو مباشرة أو أبعد (لكن حسب منطق الأكل المستمر سنسمح بأقرب مربع؟ الأفضل نجعل أول مربع فارغ فقط، ولكن من أجل التبسيط وروعة اللعب سنقبل جميع الخانات الفارغة التي تلي العدو بدون حاجز.
+                        // مع ذلك لا نضيف أكثر من حركة أكل على نفس الخط بنفس العدو (نضيف أول مربع فارغ فقط عادة) ولكن لروعة الملك سندعم كل الخانات الفارغة خلف العدو (ولكن لا ينبغي تجاوز عدو آخر). لذلك نكسر بعد إضافة أول مسافة.
+                        // نتأكد أن لا نضيف أكثر من مرة لنفس العدو/الاتجاه، نكسر الحلقة بعد إضافة أول مربع فارغ.
+                        break;
+                    }
+                    else {
+                        // لم نجد عدو بعد ومستمر في الفراغ => لا شيء
+                        continue;
+                    }
                 }
             }
         }
+        // إزالة التكرارات المحتملة (لن تتكرر لكن للتأكيد)
         return moves;
     }
+    
     function hasAnyCaptureMove(board, playerType) {
         for(let r=0;r<BOARD_SIZE;r++) for(let c=0;c<BOARD_SIZE;c++){
             let piece = board[r][c];
@@ -500,6 +528,7 @@
         }
         return false;
     }
+    
     function getNormalMovesForPiece(board, row, col, playerType) {
         let piece = board[row][col];
         if(piece === 0) return [];
@@ -527,6 +556,7 @@
         }
         return moves;
     }
+    
     function isValidMove(board, fromRow, fromCol, toRow, toCol, playerType, outCaptureInfo) {
         let piece = board[fromRow][fromCol];
         if(piece === 0) return false;
@@ -544,6 +574,7 @@
             return getNormalMovesForPiece(board, fromRow, fromCol, playerType).some(m => m.toRow === toRow && m.toCol === toCol);
         }
     }
+    
     function applySingleMove(board, fromRow, fromCol, toRow, toCol, capturedInfo) {
         let piece = board[fromRow][fromCol];
         board[toRow][toCol] = piece;
@@ -556,13 +587,13 @@
         promoteToKing(board, toRow, toCol, piece);
         return {newRow: toRow, newCol: toCol};
     }
+    
     function getInitialGameState() {
         let board = initBoardArray();
         let cnt = countPieces(board);
         return { board, turn: 'host', winner: null, hostPieceCount: cnt.host, guestPieceCount: cnt.guest, mustContinueCapture: false, continuingPiece: null };
     }
 
-    // إرسال الحركة مع الأكل المتعدد
     async function sendMoveWithCapture(fromRow, fromCol, toRow, toCol, capturedInfo) {
         if(!currentRoomId || !myRole || !gameState || gameState.winner) return false;
         if(gameState.turn !== myRole) return false;
@@ -615,7 +646,6 @@
         else document.getElementById('turnText').style.background = "#d9a066";
     }
 
-    // تاج فوق الملكة (القطع الملكية) يتم رسمها بشكل مميز
     function drawBoard() {
         if(!gameState) return;
         let board = gameState.board;
@@ -643,7 +673,6 @@
                         ctx.fillStyle = '#ffdd88';
                         ctx.font = `bold ${cellSize*0.48}px "Segoe UI"`;
                         ctx.fillText("👑", j*cellSize+cellSize*0.34, i*cellSize+cellSize*0.73);
-                        // تاج إضافي
                         ctx.font = `${cellSize*0.3}px "Segoe UI"`;
                         ctx.fillStyle = "#ffb347";
                         ctx.fillText("★", j*cellSize+cellSize*0.7, i*cellSize+cellSize*0.3);
