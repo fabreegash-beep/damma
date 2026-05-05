@@ -2,8 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>دامة الملكية | لعبة الداما الملكية الفاخرة - ملك يلتهم بلا حدود</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>دامة الملكية | لعبة الداما الملكية الفاخرة - للهاتف</title>
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -11,20 +11,22 @@
         * {
             box-sizing: border-box;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: linear-gradient(135deg, #0f2b1d 0%, #1a0f0a 100%);
+            background: linear-gradient(135deg, #0a1f14 0%, #1c0c06 100%);
             font-family: 'Segoe UI', 'Tajawal', 'Cairo', system-ui, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 12px;
             position: relative;
         }
 
+        /* تأثير ذهبي ناعم */
         body::before {
             content: '';
             position: fixed;
@@ -32,36 +34,37 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(255,215,0,0.15) 0%, rgba(255,100,0,0.05) 50%, transparent 80%);
+            background: radial-gradient(circle at 30% 20%, rgba(255,215,0,0.12) 0%, rgba(255,100,0,0.04) 60%, transparent 90%);
             pointer-events: none;
             z-index: 0;
         }
 
         .game-container {
-            background: rgba(46, 26, 15, 0.85);
-            backdrop-filter: blur(3px);
-            border-radius: 68px;
-            padding: 22px 26px 26px 26px;
-            box-shadow: 0 30px 50px rgba(0,0,0,0.6), inset 0 1px 3px rgba(255,235,150,0.4);
-            border: 1px solid rgba(255,215,0,0.3);
+            background: rgba(38, 22, 12, 0.88);
+            backdrop-filter: blur(5px);
+            border-radius: 48px;
+            padding: 12px 14px 18px 14px;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,235,150,0.3);
+            border: 1px solid rgba(255,200,80,0.4);
             z-index: 2;
-            transition: all 0.3s;
+            width: 100%;
+            max-width: 580px;
+            margin: auto;
         }
 
         .game-panel {
-            background: linear-gradient(145deg, #f9e7c2, #f5d9a4);
-            border-radius: 48px;
-            padding: 22px;
-            box-shadow: inset 0 0 0 3px #fff6e5, 0 15px 25px rgba(0,0,0,0.4);
+            background: linear-gradient(145deg, #f7e8cd, #f3dbbc);
+            border-radius: 36px;
+            padding: 14px 12px;
+            box-shadow: inset 0 0 0 2px #fffbf0, 0 10px 20px rgba(0,0,0,0.3);
         }
 
         .room-screen {
-            background: rgba(255,248,225,0.95);
-            border-radius: 42px;
-            padding: 28px 22px;
+            background: rgba(255,250,235,0.96);
+            border-radius: 36px;
+            padding: 20px 16px;
             text-align: center;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(2px);
+            transition: all 0.2s ease;
         }
 
         .room-screen.hide {
@@ -69,203 +72,234 @@
         }
 
         .input-group {
-            margin: 20px 0;
+            margin: 18px 0;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         input, button {
-            font-size: 1.2rem;
-            padding: 12px 24px;
-            border-radius: 60px;
+            font-size: 1rem;
+            padding: 12px 20px;
+            border-radius: 50px;
             border: none;
             font-weight: bold;
             font-family: inherit;
-            transition: 0.1s linear;
+            transition: 0.08s linear;
         }
 
         input {
-            background: #fff6e8;
+            background: #fffaf0;
             border: 2px solid #e6b17e;
             text-align: center;
-            letter-spacing: 3px;
-            width: 190px;
-            font-size: 1.3rem;
+            letter-spacing: 2px;
+            width: 160px;
+            font-size: 1.2rem;
             color: #4a2a1a;
         }
 
         button {
-            background: linear-gradient(95deg, #d48d3b, #b5621a);
+            background: linear-gradient(95deg, #dd9b4a, #b8621e);
             color: white;
             cursor: pointer;
-            box-shadow: 0 6px 0 #6b3a10;
+            box-shadow: 0 5px 0 #6b3a10;
             text-shadow: 0 1px 0 #5a2e0a;
+            padding: 12px 22px;
+            font-size: 1rem;
         }
 
         button:active {
-            transform: translateY(3px);
+            transform: translateY(2px);
             box-shadow: 0 2px 0 #6b3a10;
         }
 
         .secondary-btn {
             background: linear-gradient(95deg, #5a3e2a, #3e2a1a);
-            box-shadow: 0 5px 0 #2a1a0e;
+            box-shadow: 0 4px 0 #2a1a0e;
         }
 
         .game-status {
-            font-size: 1.3rem;
+            font-size: 0.9rem;
             background: #2d2418;
             color: #ffeaac;
-            padding: 10px 22px;
-            border-radius: 50px;
+            padding: 6px 16px;
+            border-radius: 40px;
             display: inline-block;
-            margin-bottom: 15px;
-            box-shadow: inset 0 1px 4px #ffdd99, 0 3px 8px black;
+            margin-bottom: 12px;
+            box-shadow: inset 0 1px 3px #ffdd99, 0 3px 6px black;
             font-weight: bold;
         }
 
         .board-wrapper {
             display: flex;
             justify-content: center;
-            overflow-x: auto;
-            position: relative;
+            margin: 6px 0;
         }
 
         canvas {
             background: #e6c28b;
-            border-radius: 28px;
-            box-shadow: 0 18px 28px rgba(0,0,0,0.5), inset 0 1px 4px rgba(255,245,200,0.8);
+            border-radius: 24px;
+            box-shadow: 0 12px 20px rgba(0,0,0,0.5), inset 0 1px 4px rgba(255,245,200,0.8);
             cursor: pointer;
             width: 100%;
             height: auto;
-            max-width: 600px;
-            border: 5px solid #f3d48f;
-            transition: transform 0.2s;
-        }
-        canvas:hover {
-            transform: scale(1.01);
+            max-width: 560px;
+            border: 4px solid #f3d48f;
+            transition: 0.1s;
+            touch-action: manipulation;
         }
 
         .player-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 20px;
-            gap: 18px;
+            margin-top: 14px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .card {
-            background: linear-gradient(125deg, #fff0dc, #ffe1be);
-            border-radius: 40px;
-            padding: 10px 20px;
+            background: linear-gradient(115deg, #fff0dc, #ffe1be);
+            border-radius: 32px;
+            padding: 6px 10px;
             flex: 1;
             text-align: center;
-            box-shadow: inset 0 1px 4px #fff9e0, 0 8px 14px rgba(0,0,0,0.2);
+            box-shadow: inset 0 1px 4px #fff9e0, 0 6px 12px rgba(0,0,0,0.15);
             border: 1px solid #f7cb8a;
+        }
+
+        .card span {
+            font-size: 0.85rem;
         }
 
         .turn-indicator {
             background: #d9a066;
-            border-radius: 50px;
-            padding: 8px 20px;
+            border-radius: 40px;
+            padding: 6px 14px;
             font-weight: bold;
-            font-size: 1.2rem;
-            box-shadow: inset 0 1px 3px #ffe1aa, 0 4px 10px rgba(0,0,0,0.2);
-            transition: 0.2s;
+            font-size: 0.85rem;
+            box-shadow: inset 0 1px 3px #ffe1aa, 0 3px 8px rgba(0,0,0,0.2);
+            text-align: center;
+            min-width: 110px;
         }
 
         h3 {
-            margin: 5px 0;
+            margin: 4px 0;
+            font-size: 1rem;
         }
 
         .code-badge {
-            background: #000000aa;
+            background: #000000bb;
             backdrop-filter: blur(8px);
             font-family: monospace;
-            font-size: 1.4rem;
-            letter-spacing: 6px;
-            padding: 6px 20px;
-            border-radius: 50px;
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            padding: 4px 14px;
+            border-radius: 40px;
             color: #ffec80;
             display: inline-block;
             font-weight: bold;
             border: 1px solid gold;
         }
 
+        /* نافذة الفائز والفائز - مناسبة للهاتف */
         .winner-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.75);
+            background: rgba(0,0,0,0.8);
             backdrop-filter: blur(8px);
             z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: fadeWin 0.5s ease;
+            animation: fadeWin 0.4s ease;
+            padding: 20px;
         }
         .winner-card {
             background: radial-gradient(circle at 30% 20%, #ffefb9, #ffd789);
-            border-radius: 70px;
-            padding: 30px 50px;
+            border-radius: 56px;
+            padding: 20px 24px;
             text-align: center;
-            box-shadow: 0 30px 40px rgba(0,0,0,0.5), inset 0 1px 5px #ffffdd;
+            box-shadow: 0 25px 35px rgba(0,0,0,0.5);
             border: 3px solid gold;
-            max-width: 400px;
-            animation: bounceWin 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+            max-width: 85vw;
+            width: 320px;
         }
         .loser-card {
             background: radial-gradient(circle at 30% 20%, #cfc2a8, #aa8e64);
             border: 3px solid #5a3a2a;
-            box-shadow: 0 20px 30px black;
         }
         .winner-card h2 {
-            font-size: 2.5rem;
-            margin: 0;
+            font-size: 1.8rem;
+            margin: 8px 0;
             color: #c77e1a;
-            text-shadow: 3px 3px 0 #ffdd99;
         }
         .emoji-big {
-            font-size: 4rem;
+            font-size: 2.8rem;
         }
+        .crown {
+            font-size: 2.5rem;
+        }
+        .sound-toggle {
+            position: fixed;
+            bottom: 18px;
+            left: 18px;
+            background: #2e241cee;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            text-align: center;
+            line-height: 48px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 99;
+            box-shadow: 0 3px 8px black;
+            backdrop-filter: blur(4px);
+            border: 1px solid #ffcf7a;
+        }
+
+        /* تحسينات اللمس */
+        button, .sound-toggle {
+            touch-action: manipulation;
+        }
+
+        @media (max-width: 480px) {
+            .game-container {
+                padding: 8px 10px 14px 10px;
+            }
+            .game-panel {
+                padding: 10px 8px;
+            }
+            .card span {
+                font-size: 0.75rem;
+            }
+            .turn-indicator {
+                font-size: 0.75rem;
+                padding: 4px 10px;
+            }
+            button {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+            input {
+                padding: 10px 14px;
+                width: 130px;
+                font-size: 1rem;
+            }
+        }
+
         @keyframes bounceWin {
             0% { transform: scale(0.7); opacity: 0; }
-            80% { transform: scale(1.05); }
+            80% { transform: scale(1.02); }
             100% { transform: scale(1); opacity: 1; }
         }
         @keyframes fadeWin {
             from { opacity: 0; }
             to { opacity: 1; }
-        }
-        .crown {
-            font-size: 3.2rem;
-            filter: drop-shadow(0 0 6px gold);
-            animation: crownGlow 1s infinite alternate;
-        }
-        @keyframes crownGlow {
-            0% { text-shadow: 0 0 2px gold; transform: rotate(-5deg);}
-            100% { text-shadow: 0 0 20px orange; transform: rotate(5deg);}
-        }
-        .sound-toggle {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: #2e241c;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            text-align: center;
-            line-height: 48px;
-            font-size: 1.7rem;
-            cursor: pointer;
-            z-index: 99;
-            box-shadow: 0 3px 8px black;
-            opacity: 0.8;
         }
     </style>
 </head>
@@ -274,16 +308,16 @@
 <div class="game-container" id="appRoot">
     <div class="game-panel">
         <div id="roomScreen" class="room-screen">
-            <div class="crown" style="font-size:3rem;">👑✨👑</div>
-            <h2 style="color:#6b3a1a; margin:0;">♛ الداما الملكية ♛</h2>
-            <p style="font-weight:bold;">🎭 المضيف ينشئ غرفة <span style="color:#b45f2b;">برمز سحري</span><br>🎭 الضيف يدخل الرمز وينضم للمعركة الملكية</p>
+            <div class="crown" style="font-size:2.5rem;">👑✨👑</div>
+            <h2 style="color:#6b3a1a; margin:4px 0; font-size:1.6rem;">♛ الداما الملكية ♛</h2>
+            <p style="font-weight:bold; font-size:0.85rem;">🎭 المضيف ينشئ غرفة برمز سحري<br>🎭 الضيف يدخل الرمز وينضم للمعركة الملكية</p>
             <div class="input-group">
                 <button id="hostBtn">👑 إنشاء غرفة ملكية</button>
                 <div style="width:100%"></div>
-                <input type="text" id="joinCodeInput" placeholder="🔢 رمز 4 أرقام" maxlength="4">
+                <input type="text" id="joinCodeInput" placeholder="🔢 رمز 4 أرقام" maxlength="4" inputmode="numeric" pattern="[0-9]*">
                 <button id="joinBtn">✨ انضم للغرفة ✨</button>
             </div>
-            <div id="roomStatus" style="margin-top: 15px; color:#8b5a2b; font-weight:bold;"></div>
+            <div id="roomStatus" style="margin-top: 10px; color:#8b5a2b; font-weight:bold; font-size:0.8rem;"></div>
         </div>
 
         <div id="gameScreen" style="display: none;">
@@ -292,22 +326,22 @@
                 <div style="margin-top: 6px;"><span id="roomCodeDisplay" class="code-badge"></span></div>
             </div>
             <div class="board-wrapper">
-                <canvas id="gameCanvas" width="520" height="520"></canvas>
+                <canvas id="gameCanvas" width="500" height="500"></canvas>
             </div>
             <div class="player-info">
                 <div class="card"><span>🟤👑 <strong>الملك/المضيف</strong> (أسمر)</span><br><span id="hostPieceCount">12</span> قطعة</div>
                 <div class="turn-indicator" id="turnText">⏳ انتظر الدور...</div>
                 <div class="card"><span>⚪✨ <strong>الضيف النبيل</strong> (بيج)</span><br><span id="guestPieceCount">12</span> قطعة</div>
             </div>
-            <div style="text-align: center; margin-top: 18px;">
-                <button id="leaveGameBtn" class="secondary-btn">🚪 مغادرة القصر</button>
+            <div style="text-align: center; margin-top: 14px;">
+                <button id="leaveGameBtn" class="secondary-btn" style="padding: 8px 18px;">🚪 مغادرة القصر</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // ------------------- إعدادات Firebase -------------------
+    // ------------------- Firebase config -------------------
     const firebaseConfig = {
         apiKey: "AIzaSyCTKYD680Jdbl0azC9RTtuKZBaLX2Uu_Ck",
         authDomain: "my-online-store-34f34.firebaseapp.com",
@@ -320,43 +354,43 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // متغيرات الصوت
+    // Audio & Sound
     let audioCtx = null;
     let soundEnabled = true;
+    function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
     function playSound(type) {
         if (!soundEnabled) return;
         try {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (!audioCtx) initAudio();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.type = "sine";
-            let freq = 0;
-            let duration = 0.2;
-            if (type === 'move') { freq = 523.25; duration = 0.12; gain.gain.value = 0.2; }
-            else if (type === 'capture') { freq = 659.25; duration = 0.2; gain.gain.value = 0.25; osc.type = "triangle"; }
-            else if (type === 'win') { freq = 880; duration = 0.5; gain.gain.value = 0.3; osc.type = "sine"; }
-            else if (type === 'lose') { freq = 220; duration = 0.6; gain.gain.value = 0.25; osc.type = "sawtooth"; }
-            else if (type === 'king') { freq = 1046.5; duration = 0.18; gain.gain.value = 0.2; }
+            let freq = 0, duration = 0.15;
+            if (type === 'move') { freq = 523.25; duration = 0.1; gain.gain.value = 0.2; }
+            else if (type === 'capture') { freq = 659.25; duration = 0.18; gain.gain.value = 0.25; osc.type = "triangle"; }
+            else if (type === 'win') { freq = 880; duration = 0.45; gain.gain.value = 0.3; }
+            else if (type === 'lose') { freq = 220; duration = 0.5; gain.gain.value = 0.25; osc.type = "sawtooth"; }
+            else if (type === 'king') { freq = 1046.5; duration = 0.15; gain.gain.value = 0.22; }
             osc.frequency.value = freq;
             gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
             osc.start();
             osc.stop(audioCtx.currentTime + duration);
-        } catch(e) { console.log("Audio error", e); }
+        } catch(e) {}
     }
 
-    // متغيرات اللعبة
+    // Game variables
     let currentRoomId = null;
     let myRole = null;
     let gameState = null;
     let selectedRow = null, selectedCol = null;
     let myTurn = false;
     let localListener = null;
-    let canvas = document.getElementById('gameCanvas');
-    let ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
     const BOARD_SIZE = 8;
-    let cellSize = 65;
+    let cellSize = 62.5;
 
     function flashEffect(color) {
         const flashDiv = document.createElement('div');
@@ -366,47 +400,35 @@
         flashDiv.style.width = '100%';
         flashDiv.style.height = '100%';
         flashDiv.style.backgroundColor = color;
-        flashDiv.style.opacity = '0.25';
+        flashDiv.style.opacity = '0.28';
         flashDiv.style.pointerEvents = 'none';
         flashDiv.style.zIndex = '999';
         document.body.appendChild(flashDiv);
-        setTimeout(() => flashDiv.remove(), 120);
+        setTimeout(() => flashDiv.remove(), 100);
     }
 
-    function showWinnerLoserModal(winnerRole, loserRole) {
-        const isWinnerHost = (winnerRole === 'host');
-        const winnerName = isWinnerHost ? 'المضيف الملك' : 'الضيف البطل';
-        const winnerEmoji = isWinnerHost ? '👑🏆⚡🔥' : '🎉💪✨🏅';
-        const loserEmoji = '😢💔🌧️';
+    function showWinnerLoserModal(winnerRole) {
+        const isWinner = (winnerRole === myRole);
+        const winnerName = winnerRole === 'host' ? 'المضيف الملك' : 'الضيف البطل';
         const modal = document.createElement('div');
         modal.className = 'winner-overlay';
-        if (winnerRole === myRole) {
-            modal.innerHTML = `
-                <div class="winner-card">
-                    <div class="emoji-big">🎉✨🏆✨🎉</div>
-                    <div class="crown">👑👑👑</div>
-                    <h2>! فَزْتَ يَا بَطَل</h2>
-                    <p style="font-size:1.8rem; margin:10px 0;">${winnerEmoji}</p>
-                    <p style="font-size:1.4rem; font-weight:bold;">أنت ${winnerName} ⚡💪</p>
-                    <div style="font-size:2rem;">🤩🎊🥳</div>
-                    <button id="closeWinModal" style="margin-top:20px; background:#d48b3a;">🎉 رائع 🎉</button>
-                </div>
-            `;
+        if (isWinner) {
+            modal.innerHTML = `<div class="winner-card" style="animation: bounceWin 0.4s cubic-bezier(0.34,1.2,0.64,1);">
+                <div class="emoji-big">🎉✨🏆✨🎉</div><div class="crown">👑👑👑</div>
+                <h2>! فَزْتَ يَا بَطَل</h2><p style="font-size:1.4rem;">⚡🎊🥳⚡</p>
+                <p style="font-weight:bold;">أنت ${winnerName}</p>
+                <button id="closeWinModal" style="margin-top:16px; background:#d48b3a; padding:8px 24px;">🎉 رائع 🎉</button>
+            </div>`;
             playSound('win');
             flashEffect('gold');
         } else {
-            modal.innerHTML = `
-                <div class="winner-card loser-card">
-                    <div class="emoji-big">😭💔🌧️</div>
-                    <h2 style="color:#4a2a1a;">خسارة يا صديقي</h2>
-                    <p style="font-size:2rem;">${loserEmoji}</p>
-                    <p style="font-size:1.3rem;">لقد فاز ${winnerName} 🏆</p>
-                    <div>✨ حاول مجددًا ✨</div>
-                    <button id="closeWinModal" style="margin-top:20px; background:#7a5a3a;">أغلق</button>
-                </div>
-            `;
+            modal.innerHTML = `<div class="winner-card loser-card" style="animation: bounceWin 0.4s ease;">
+                <div class="emoji-big">😭💔🌧️</div><h2 style="color:#4a2a1a;">خسارة يا صديقي</h2>
+                <p style="font-size:1.8rem;">😢👑</p><p style="font-size:1rem;">لقد فاز ${winnerName} 🏆</p>
+                <div>✨ حاول مجددًا ✨</div><button id="closeWinModal" style="margin-top:16px; background:#7a5a3a;">أغلق</button>
+            </div>`;
             playSound('lose');
-            flashEffect('#aa4444');
+            flashEffect('#aa5555');
         }
         document.body.appendChild(modal);
         document.getElementById('closeWinModal').onclick = () => modal.remove();
@@ -414,365 +436,257 @@
 
     function initBoardArray() {
         let board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(0));
-        for (let row = 0; row < 3; row++) {
-            for (let col = 0; col < BOARD_SIZE; col++) {
-                if ((row + col) % 2 === 1) board[row][col] = 1;
-            }
-        }
-        for (let row = 5; row < 8; row++) {
-            for (let col = 0; col < BOARD_SIZE; col++) {
-                if ((row + col) % 2 === 1) board[row][col] = 2;
-            }
-        }
+        for (let row = 0; row < 3; row++) for (let col = 0; col < BOARD_SIZE; col++) if ((row+col)%2===1) board[row][col] = 1;
+        for (let row = 5; row < 8; row++) for (let col = 0; col < BOARD_SIZE; col++) if ((row+col)%2===1) board[row][col] = 2;
         return board;
     }
-    
     function promoteToKing(board, row, col, pieceType) {
         if (pieceType === 1 && row === BOARD_SIZE-1) { board[row][col] = 3; playSound('king'); flashEffect('#ffbb33'); }
         if (pieceType === 2 && row === 0) { board[row][col] = 4; playSound('king'); flashEffect('#ffcc66'); }
     }
-    
-    function countPieces(board) {
-        let host = 0, guest = 0;
-        for(let i=0;i<BOARD_SIZE;i++) for(let j=0;j<BOARD_SIZE;j++) {
-            if(board[i][j] === 1 || board[i][j] === 3) host++;
-            if(board[i][j] === 2 || board[i][j] === 4) guest++;
-        }
-        return {host, guest};
-    }
+    function countPieces(board) { let h=0,g=0; for(let i=0;i<BOARD_SIZE;i++) for(let j=0;j<BOARD_SIZE;j++) { if(board[i][j]===1||board[i][j]===3) h++; if(board[i][j]===2||board[i][j]===4) g++; } return {host:h, guest:g}; }
 
-    // ** نواة الملك الجديدة: يأكل في أي اتجاه بمسافة غير محدودة عبر أي عدد من الخانات (يجب وجود خصم واحد بالضبط في مسار مستقيم ثم خلية فارغة بعدها)
     function getCaptureMovesForPiece(board, row, col, playerType) {
         let piece = board[row][col];
-        if(piece === 0) return [];
-        let isHostPiece = (piece === 1 || piece === 3);
-        if((playerType === 'host' && !isHostPiece) || (playerType === 'guest' && isHostPiece)) return [];
-        let isKing = (piece === 3 || piece === 4);
-        let moves = [];
-        
-        // الاتجاهات الأربعة المائلة
-        const directions = [[-1,-1],[-1,1],[1,-1],[1,1]];
-        
-        if (!isKing) {
-            // البيادق العادية: خطوة للأمام فقط
-            let forwardDir = (piece === 1) ? 1 : -1;
-            for (let dc of [-1, 1]) {
-                let midRow = row + forwardDir, midCol = col + dc;
-                let jumpRow = row + forwardDir*2, jumpCol = col + dc*2;
-                if (jumpRow>=0 && jumpRow<BOARD_SIZE && jumpCol>=0 && jumpCol<BOARD_SIZE) {
-                    let midPiece = board[midRow]?.[midCol];
-                    let targetPiece = board[jumpRow][jumpCol];
-                    if (midPiece !== 0 && targetPiece === 0) {
-                        let isEnemy = (isHostPiece && (midPiece === 2 || midPiece === 4)) || (!isHostPiece && (midPiece === 1 || midPiece === 3));
-                        if (isEnemy) moves.push({toRow: jumpRow, toCol: jumpCol, capturedRow: midRow, capturedCol: midCol});
-                    }
-                }
-            }
-        } 
-        else { // ** الملك: يأكل في أي اتجاه وبأي مسافة طالما هناك خصم واحد بالضبط في المسار المباشر ثم خلية فارغة بعدها **
-            for (let [dr, dc] of directions) {
-                let foundEnemy = false;
-                let enemyRow = -1, enemyCol = -1;
-                // المسح على طول الخط
-                for (let step = 1; step < BOARD_SIZE; step++) {
-                    let nr = row + dr * step;
-                    let nc = col + dc * step;
-                    if (nr < 0 || nr >= BOARD_SIZE || nc < 0 || nc >= BOARD_SIZE) break;
-                    let cell = board[nr][nc];
-                    if (cell !== 0) {
-                        // وُجد قطعة
-                        let isEnemy = (isHostPiece && (cell === 2 || cell === 4)) || (!isHostPiece && (cell === 1 || cell === 3));
-                        if (!foundEnemy && isEnemy) {
-                            // أول قطعة في هذا المسار هي عدو
-                            foundEnemy = true;
-                            enemyRow = nr;
-                            enemyCol = nc;
-                            // لا نكسر الحلقة، نستمر للبحث عن مربع فارغ بعد العدو مباشرةً
-                        } else {
-                            // إما قطعة صديق أو عدو ثاني - هذا المسار غير صالح للأكل
-                            break;
-                        }
-                    } 
-                    else if (foundEnemy) {
-                        // وجدنا عدو من قبل والخلية الحالية فارغة => يمكن القفز إليها
-                        moves.push({
-                            toRow: nr,
-                            toCol: nc,
-                            capturedRow: enemyRow,
-                            capturedCol: enemyCol
-                        });
-                        // نستمر لنجد خانات أبعد أيضاً؟ بقوانين الداما الملكية إذا أكل الملك يمكنه التوقف عند أول خانة فارغة بعد العدو، لكن دعم الإلتقاط المتعدد لاحقاً سيتعامل مع الاستمرارية.
-                        // نسمح بالقفز لأي مربع فارغ خلف العدو مباشرة أو أبعد (لكن حسب منطق الأكل المستمر سنسمح بأقرب مربع؟ الأفضل نجعل أول مربع فارغ فقط، ولكن من أجل التبسيط وروعة اللعب سنقبل جميع الخانات الفارغة التي تلي العدو بدون حاجز.
-                        // مع ذلك لا نضيف أكثر من حركة أكل على نفس الخط بنفس العدو (نضيف أول مربع فارغ فقط عادة) ولكن لروعة الملك سندعم كل الخانات الفارغة خلف العدو (ولكن لا ينبغي تجاوز عدو آخر). لذلك نكسر بعد إضافة أول مسافة.
-                        // نتأكد أن لا نضيف أكثر من مرة لنفس العدو/الاتجاه، نكسر الحلقة بعد إضافة أول مربع فارغ.
-                        break;
-                    }
-                    else {
-                        // لم نجد عدو بعد ومستمر في الفراغ => لا شيء
-                        continue;
-                    }
-                }
-            }
-        }
-        // إزالة التكرارات المحتملة (لن تتكرر لكن للتأكيد)
-        return moves;
-    }
-    
-    function hasAnyCaptureMove(board, playerType) {
-        for(let r=0;r<BOARD_SIZE;r++) for(let c=0;c<BOARD_SIZE;c++){
-            let piece = board[r][c];
-            let isHostPiece = (piece === 1 || piece === 3);
-            if((playerType === 'host' && isHostPiece) || (playerType === 'guest' && !isHostPiece && piece !== 0)){
-                if(getCaptureMovesForPiece(board, r, c, playerType).length > 0) return true;
-            }
-        }
-        return false;
-    }
-    
-    function getNormalMovesForPiece(board, row, col, playerType) {
-        let piece = board[row][col];
-        if(piece === 0) return [];
-        let isHostPiece = (piece === 1 || piece === 3);
-        if((playerType === 'host' && !isHostPiece) || (playerType === 'guest' && isHostPiece)) return [];
-        let isKing = (piece === 3 || piece === 4);
+        if(piece===0) return [];
+        let isHostPiece = (piece===1||piece===3);
+        if((playerType==='host' && !isHostPiece) || (playerType==='guest' && isHostPiece)) return [];
+        let isKing = (piece===3||piece===4);
         let moves = [];
         let directions = [[-1,-1],[-1,1],[1,-1],[1,1]];
-        if(!isKing){
-            let forwardDir = (piece === 1) ? 1 : -1;
-            directions = [[forwardDir,-1],[forwardDir,1]];
+        if(!isKing) { let fd = (piece===1||piece===3)?1:-1; directions = [[fd,-1],[fd,1]]; }
+        for(let [dr,dc] of directions){
+            let midRow = row+dr, midCol = col+dc;
+            let jumpRow = row+dr*2, jumpCol = col+dc*2;
+            if(jumpRow>=0 && jumpRow<BOARD_SIZE && jumpCol>=0 && jumpCol<BOARD_SIZE){
+                let midPiece = board[midRow]?.[midCol];
+                let targetPiece = board[jumpRow][jumpCol];
+                if(midPiece!==0 && targetPiece===0){
+                    let isEnemy = (isHostPiece && (midPiece===2||midPiece===4)) || (!isHostPiece && (midPiece===1||midPiece===3));
+                    if(isEnemy) moves.push({toRow:jumpRow, toCol:jumpCol, capturedRow:midRow, capturedCol:midCol});
+                }
+            }
         }
-        for(let [dr, dc] of directions){
-            let newRow = row+dr, newCol = col+dc;
-            if(newRow>=0 && newRow<BOARD_SIZE && newCol>=0 && newCol<BOARD_SIZE && board[newRow][newCol] === 0){
-                if(!isKing) moves.push({toRow: newRow, toCol: newCol, captured: null});
-                else {
-                    let rTemp = newRow, cTemp = newCol;
-                    while(rTemp>=0 && rTemp<BOARD_SIZE && cTemp>=0 && cTemp<BOARD_SIZE && board[rTemp][cTemp] === 0){
-                        moves.push({toRow: rTemp, toCol: cTemp, captured: null});
-                        rTemp += dr; cTemp += dc;
-                    }
+        if(isKing){
+            for(let [dr,dc] of [[-1,-1],[-1,1],[1,-1],[1,1]]){
+                for(let step=1; step<=2; step++){
+                    let midRow = row+dr*step, midCol = col+dc*step;
+                    let jumpRow = row+dr*(step+1), jumpCol = col+dc*(step+1);
+                    if(jumpRow<0||jumpRow>=BOARD_SIZE||jumpCol<0||jumpCol>=BOARD_SIZE) break;
+                    let midPiece = board[midRow]?.[midCol];
+                    let targetPiece = board[jumpRow][jumpCol];
+                    if(midPiece!==0 && targetPiece===0){
+                        let isEnemy = (isHostPiece && (midPiece===2||midPiece===4)) || (!isHostPiece && (midPiece===1||midPiece===3));
+                        if(isEnemy){ if(!moves.some(m=>m.toRow===jumpRow&&m.toCol===jumpCol)) moves.push({toRow:jumpRow,toCol:jumpCol,capturedRow:midRow,capturedCol:midCol}); break; }
+                        else break;
+                    } else if(midPiece!==0) break;
                 }
             }
         }
         return moves;
     }
-    
-    function isValidMove(board, fromRow, fromCol, toRow, toCol, playerType, outCaptureInfo) {
-        let piece = board[fromRow][fromCol];
-        if(piece === 0) return false;
-        let isHostPiece = (piece === 1 || piece === 3);
-        if((playerType === 'host' && !isHostPiece) || (playerType === 'guest' && isHostPiece)) return false;
-        let mustCapture = hasAnyCaptureMove(board, playerType);
-        let captureMoves = getCaptureMovesForPiece(board, fromRow, fromCol, playerType);
-        let isCapture = captureMoves.some(m => m.toRow === toRow && m.toCol === toCol);
-        if(mustCapture && !isCapture) return false;
-        if(isCapture){
-            let mv = captureMoves.find(m => m.toRow === toRow && m.toCol === toCol);
-            if(mv) { if(outCaptureInfo) { outCaptureInfo.capturedRow = mv.capturedRow; outCaptureInfo.capturedCol = mv.capturedCol; } return true; }
-            return false;
-        } else {
-            return getNormalMovesForPiece(board, fromRow, fromCol, playerType).some(m => m.toRow === toRow && m.toCol === toCol);
+    function hasAnyCaptureMove(board, playerType){
+        for(let r=0;r<BOARD_SIZE;r++) for(let c=0;c<BOARD_SIZE;c++){ let piece=board[r][c]; let isHostPiece=(piece===1||piece===3); if((playerType==='host' && isHostPiece)||(playerType==='guest' && !isHostPiece && piece!==0)) if(getCaptureMovesForPiece(board,r,c,playerType).length>0) return true; }
+        return false;
+    }
+    function getNormalMovesForPiece(board,row,col,playerType){
+        let piece=board[row][col]; if(piece===0) return [];
+        let isHostPiece=(piece===1||piece===3); if((playerType==='host' && !isHostPiece)||(playerType==='guest' && isHostPiece)) return [];
+        let isKing=(piece===3||piece===4); let moves=[];
+        let directions=[[-1,-1],[-1,1],[1,-1],[1,1]];
+        if(!isKing){ let fd=(piece===1)?1:-1; directions=[[fd,-1],[fd,1]]; }
+        for(let [dr,dc] of directions){
+            let newRow=row+dr, newCol=col+dc;
+            if(newRow>=0 && newRow<BOARD_SIZE && newCol>=0 && newCol<BOARD_SIZE && board[newRow][newCol]===0){
+                if(!isKing) moves.push({toRow:newRow, toCol:newCol,captured:null});
+                else { let rTemp=newRow,cTemp=newCol; while(rTemp>=0 && rTemp<BOARD_SIZE && cTemp>=0 && cTemp<BOARD_SIZE && board[rTemp][cTemp]===0){ moves.push({toRow:rTemp,toCol:cTemp,captured:null}); rTemp+=dr; cTemp+=dc; } }
+            }
         }
+        return moves;
     }
-    
-    function applySingleMove(board, fromRow, fromCol, toRow, toCol, capturedInfo) {
-        let piece = board[fromRow][fromCol];
-        board[toRow][toCol] = piece;
-        board[fromRow][fromCol] = 0;
-        if(capturedInfo && capturedInfo.capturedRow !== undefined){
-            board[capturedInfo.capturedRow][capturedInfo.capturedCol] = 0;
-            playSound('capture');
-            flashEffect('#ff8844');
-        } else { playSound('move'); flashEffect('#aaffaa'); }
-        promoteToKing(board, toRow, toCol, piece);
-        return {newRow: toRow, newCol: toCol};
+    function isValidMove(board,fromRow,fromCol,toRow,toCol,playerType,outCapture){
+        let piece=board[fromRow][fromCol]; if(piece===0) return false;
+        let isHostPiece=(piece===1||piece===3); if((playerType==='host' && !isHostPiece)||(playerType==='guest' && isHostPiece)) return false;
+        let mustCapture=hasAnyCaptureMove(board,playerType);
+        let captureMoves=getCaptureMovesForPiece(board,fromRow,fromCol,playerType);
+        let isCapture=captureMoves.some(m=>m.toRow===toRow && m.toCol===toCol);
+        if(mustCapture && !isCapture) return false;
+        if(isCapture){ let mv=captureMoves.find(m=>m.toRow===toRow && m.toCol===toCol); if(mv){ if(outCapture){ outCapture.capturedRow=mv.capturedRow; outCapture.capturedCol=mv.capturedCol; } return true; } return false; }
+        else { return getNormalMovesForPiece(board,fromRow,fromCol,playerType).some(m=>m.toRow===toRow && m.toCol===toCol); }
     }
-    
-    function getInitialGameState() {
-        let board = initBoardArray();
-        let cnt = countPieces(board);
-        return { board, turn: 'host', winner: null, hostPieceCount: cnt.host, guestPieceCount: cnt.guest, mustContinueCapture: false, continuingPiece: null };
+    function applySingleMove(board,fromRow,fromCol,toRow,toCol,capturedInfo){
+        let piece=board[fromRow][fromCol];
+        board[toRow][toCol]=piece; board[fromRow][fromCol]=0;
+        if(capturedInfo && capturedInfo.capturedRow!==undefined){ board[capturedInfo.capturedRow][capturedInfo.capturedCol]=0; playSound('capture'); flashEffect('#ff8844'); } else { playSound('move'); flashEffect('#aaffaa'); }
+        promoteToKing(board,toRow,toCol,piece);
+        return {newRow:toRow,newCol:toCol};
+    }
+    function getInitialGameState(){ let b=initBoardArray(); let c=countPieces(b); return {board:b,turn:'host',winner:null,hostPieceCount:c.host,guestPieceCount:c.guest,mustContinueCapture:false,continuingPiece:null}; }
+
+    async function sendMoveWithCapture(fromRow,fromCol,toRow,toCol,capturedInfo){
+        if(!currentRoomId||!myRole||!gameState||gameState.winner) return false;
+        if(gameState.turn!==myRole) return false;
+        if(gameState.mustContinueCapture && gameState.continuingPiece && (fromRow!==gameState.continuingPiece.row||fromCol!==gameState.continuingPiece.col)) return false;
+        let boardCopy=JSON.parse(JSON.stringify(gameState.board));
+        let captureData=capturedInfo?{capturedRow:capturedInfo.capturedRow,capturedCol:capturedInfo.capturedCol}:null;
+        if(!isValidMove(boardCopy,fromRow,fromCol,toRow,toCol,myRole,captureData||{})) return false;
+        let result=applySingleMove(boardCopy,fromRow,fromCol,toRow,toCol,captureData);
+        let newBoard=boardCopy;
+        let counts=countPieces(newBoard);
+        let winner=null;
+        if(counts.host===0) winner='guest';
+        if(counts.guest===0) winner='host';
+        let nextTurn=myRole;
+        let mustContinue=false, continuingPiece=null;
+        if(captureData && !winner){
+            let addCapt=getCaptureMovesForPiece(newBoard,result.newRow,result.newCol,myRole);
+            if(addCapt.length>0){ mustContinue=true; continuingPiece={row:result.newRow,col:result.newCol}; nextTurn=myRole; }
+            else { nextTurn=(myRole==='host')?'guest':'host'; }
+        } else { nextTurn=(myRole==='host')?'guest':'host'; }
+        if(winner) nextTurn=null;
+        await db.ref(`games/${currentRoomId}`).update({board:newBoard,turn:nextTurn,winner:winner,hostPieceCount:counts.host,guestPieceCount:counts.guest,mustContinueCapture:mustContinue,continuingPiece:continuingPiece});
+        return true;
     }
 
-    async function sendMoveWithCapture(fromRow, fromCol, toRow, toCol, capturedInfo) {
-        if(!currentRoomId || !myRole || !gameState || gameState.winner) return false;
-        if(gameState.turn !== myRole) return false;
-        if(gameState.mustContinueCapture && gameState.continuingPiece && (fromRow !== gameState.continuingPiece.row || fromCol !== gameState.continuingPiece.col)) return false;
-        let boardCopy = JSON.parse(JSON.stringify(gameState.board));
-        let captureData = capturedInfo ? {capturedRow: capturedInfo.capturedRow, capturedCol: capturedInfo.capturedCol} : null;
-        if(!isValidMove(boardCopy, fromRow, fromCol, toRow, toCol, myRole, captureData || {})) return false;
-        let result = applySingleMove(boardCopy, fromRow, fromCol, toRow, toCol, captureData);
-        let newBoard = boardCopy;
-        let counts = countPieces(newBoard);
-        let winner = null;
-        if(counts.host === 0) winner = 'guest';
-        if(counts.guest === 0) winner = 'host';
-        let nextTurn = myRole;
-        let mustContinue = false, continuingPiece = null;
-        if(captureData && !winner){
-            let addCapt = getCaptureMovesForPiece(newBoard, result.newRow, result.newCol, myRole);
-            if(addCapt.length > 0){ mustContinue = true; continuingPiece = {row: result.newRow, col: result.newCol}; nextTurn = myRole; }
-            else { nextTurn = (myRole === 'host') ? 'guest' : 'host'; }
-        } else { nextTurn = (myRole === 'host') ? 'guest' : 'host'; }
-        if(winner) nextTurn = null;
-        await db.ref(`games/${currentRoomId}`).update({
-            board: newBoard, turn: winner ? null : nextTurn, winner: winner,
-            hostPieceCount: counts.host, guestPieceCount: counts.guest,
-            mustContinueCapture: mustContinue, continuingPiece: continuingPiece
-        });
-        return true;
+    function drawBoard() {
+        if(!gameState) return;
+        let board=gameState.board;
+        cellSize=canvas.width/BOARD_SIZE;
+        for(let i=0;i<BOARD_SIZE;i++){
+            for(let j=0;j<BOARD_SIZE;j++){
+                let isDark=(i+j)%2===1;
+                ctx.fillStyle=isDark?'#bd7f3a':'#fae7b3';
+                ctx.fillRect(j*cellSize,i*cellSize,cellSize,cellSize);
+                if(selectedRow===i && selectedCol===j){
+                    ctx.strokeStyle='#ffcc44';
+                    ctx.lineWidth=4;
+                    ctx.strokeRect(j*cellSize+3,i*cellSize+3,cellSize-6,cellSize-6);
+                }
+                let piece=board[i][j];
+                if(piece!==0){
+                    if(piece===1) ctx.fillStyle='#9b6a3c';
+                    else if(piece===2) ctx.fillStyle='#eedbbc';
+                    else if(piece===3){ ctx.fillStyle='#e59e3a'; ctx.shadowBlur=6; ctx.shadowColor='#ffbf69';}
+                    else { ctx.fillStyle='#f7d44a'; ctx.shadowBlur=6; ctx.shadowColor='#ffdd99';}
+                    ctx.beginPath();
+                    ctx.arc(j*cellSize+cellSize/2,i*cellSize+cellSize/2,cellSize*0.36,0,2*Math.PI);
+                    ctx.fill();
+                    if(piece===3||piece===4){
+                        ctx.fillStyle='#ffdd88';
+                        ctx.font=`bold ${cellSize*0.42}px "Segoe UI"`;
+                        ctx.fillText("👑", j*cellSize+cellSize*0.32, i*cellSize+cellSize*0.74);
+                        ctx.font=`${cellSize*0.28}px "Segoe UI"`;
+                        ctx.fillStyle="#ffb347";
+                        ctx.fillText("★", j*cellSize+cellSize*0.7, i*cellSize+cellSize*0.32);
+                    }
+                    ctx.shadowBlur=0;
+                }
+            }
+        }
     }
 
     function refreshUI() {
         if(!gameState) return;
         drawBoard();
-        let cnt = countPieces(gameState.board);
-        document.getElementById('hostPieceCount').innerText = cnt.host;
-        document.getElementById('guestPieceCount').innerText = cnt.guest;
+        let cnt=countPieces(gameState.board);
+        document.getElementById('hostPieceCount').innerText=cnt.host;
+        document.getElementById('guestPieceCount').innerText=cnt.guest;
         if(gameState.winner){
-            document.getElementById('turnText').innerHTML = `🏆 الفائز: ${gameState.winner === 'host' ? 'المضيف 👑⚡' : 'الضيف 💪✨'} 🏆`;
-            myTurn = false;
-            showWinnerLoserModal(gameState.winner, gameState.winner === 'host' ? 'guest' : 'host');
+            document.getElementById('turnText').innerHTML=`🏆 الفائز: ${gameState.winner==='host'?'المضيف 👑⚡':'الضيف 💪✨'} 🏆`;
+            myTurn=false;
+            showWinnerLoserModal(gameState.winner);
         } else {
-            let turnTxt = gameState.turn === 'host' ? '🔴 دور الملك (أسمر) 👑' : '⚪ دور النبيل (بيج) ✨';
-            if(gameState.mustContinueCapture) turnTxt += ' 🔥 أكل متعدد! أكمل 🔥';
-            document.getElementById('turnText').innerHTML = turnTxt;
-            myTurn = (gameState.turn === myRole && !gameState.winner);
-            if(gameState.mustContinueCapture && gameState.continuingPiece && myRole === gameState.turn){
-                if(selectedRow === null){ selectedRow = gameState.continuingPiece.row; selectedCol = gameState.continuingPiece.col; drawBoard(); }
+            let turnTxt=gameState.turn==='host'?'🔴 دور الملك (أسمر) 👑':'⚪ دور النبيل (بيج) ✨';
+            if(gameState.mustContinueCapture) turnTxt+=' 🔥 أكمل الأكل! 🔥';
+            document.getElementById('turnText').innerHTML=turnTxt;
+            myTurn=(gameState.turn===myRole && !gameState.winner);
+            if(gameState.mustContinueCapture && gameState.continuingPiece && myRole===gameState.turn && selectedRow===null){
+                selectedRow=gameState.continuingPiece.row; selectedCol=gameState.continuingPiece.col; drawBoard();
             }
         }
-        if(myTurn && !gameState.winner) document.getElementById('turnText').style.background = "#f5bc70";
-        else document.getElementById('turnText').style.background = "#d9a066";
+        if(myTurn && !gameState.winner) document.getElementById('turnText').style.background="#f5bc70";
+        else document.getElementById('turnText').style.background="#d9a066";
     }
 
-    function drawBoard() {
-        if(!gameState) return;
-        let board = gameState.board;
-        cellSize = canvas.width / BOARD_SIZE;
-        for(let i=0;i<BOARD_SIZE;i++){
-            for(let j=0;j<BOARD_SIZE;j++){
-                let isDark = (i+j)%2 === 1;
-                ctx.fillStyle = isDark ? '#bd7f3a' : '#fae7b3';
-                ctx.fillRect(j*cellSize, i*cellSize, cellSize, cellSize);
-                if(selectedRow === i && selectedCol === j){
-                    ctx.strokeStyle = '#ffcc44';
-                    ctx.lineWidth = 5;
-                    ctx.strokeRect(j*cellSize+3, i*cellSize+3, cellSize-6, cellSize-6);
-                }
-                let piece = board[i][j];
-                if(piece !== 0){
-                    if(piece === 1) ctx.fillStyle = '#9b6a3c';
-                    else if(piece === 2) ctx.fillStyle = '#eedbbc';
-                    else if(piece === 3) { ctx.fillStyle = '#e59e3a'; ctx.shadowBlur = 8; ctx.shadowColor = '#ffbf69';}
-                    else { ctx.fillStyle = '#f7d44a'; ctx.shadowBlur = 8; ctx.shadowColor = '#ffdd99';}
-                    ctx.beginPath();
-                    ctx.arc(j*cellSize+cellSize/2, i*cellSize+cellSize/2, cellSize*0.38, 0, 2*Math.PI);
-                    ctx.fill();
-                    if(piece === 3 || piece === 4){
-                        ctx.fillStyle = '#ffdd88';
-                        ctx.font = `bold ${cellSize*0.48}px "Segoe UI"`;
-                        ctx.fillText("👑", j*cellSize+cellSize*0.34, i*cellSize+cellSize*0.73);
-                        ctx.font = `${cellSize*0.3}px "Segoe UI"`;
-                        ctx.fillStyle = "#ffb347";
-                        ctx.fillText("★", j*cellSize+cellSize*0.7, i*cellSize+cellSize*0.3);
-                    }
-                    ctx.shadowBlur = 0;
-                }
-            }
-        }
-    }
-
-    function subscribeToGame(roomId) {
+    function subscribeToGame(roomId){
         if(localListener) localListener.off();
-        const gameRef = db.ref(`games/${roomId}`);
-        localListener = gameRef.on('value', (snapshot) => {
-            let data = snapshot.val();
+        const gameRef=db.ref(`games/${roomId}`);
+        localListener=gameRef.on('value',(snapshot)=>{
+            let data=snapshot.val();
             if(!data){ alert("الغرفة أغلقت"); leaveGame(); return; }
-            gameState = {
-                board: data.board, turn: data.turn, winner: data.winner,
-                hostPieceCount: data.hostPieceCount, guestPieceCount: data.guestPieceCount,
-                mustContinueCapture: data.mustContinueCapture || false,
-                continuingPiece: data.continuingPiece || null
-            };
+            gameState={board:data.board,turn:data.turn,winner:data.winner,hostPieceCount:data.hostPieceCount,guestPieceCount:data.guestPieceCount,mustContinueCapture:data.mustContinueCapture||false,continuingPiece:data.continuingPiece||null};
             refreshUI();
-            if(gameState.winner) myTurn = false;
-            else myTurn = (gameState.turn === myRole);
+            if(!gameState.winner) myTurn=(gameState.turn===myRole);
+            else myTurn=false;
         });
     }
-
-    async function leaveGame() {
+    async function leaveGame(){
         if(currentRoomId){ if(localListener) localListener.off(); await db.ref(`games/${currentRoomId}`).remove().catch(e=>{}); currentRoomId=null; }
-        document.getElementById('gameScreen').style.display = 'none';
+        document.getElementById('gameScreen').style.display='none';
         document.getElementById('roomScreen').classList.remove('hide');
         myRole=null; selectedRow=null; gameState=null;
     }
-
-    async function createRoom() {
-        let code = Math.floor(1000 + Math.random() * 9000).toString();
-        let init = getInitialGameState();
-        await db.ref(`games/${code}`).set({
-            board: init.board, turn: 'host', winner: null, hostPieceCount:12, guestPieceCount:12,
-            mustContinueCapture: false, continuingPiece: null
-        });
-        currentRoomId = code; myRole = 'host';
-        document.getElementById('roomCodeDisplay').innerText = `🔑 رمز القصر: ${code}`;
-        document.getElementById('gameModeLabel').innerHTML = '👑 أنت <strong>المضيف الملكي</strong> (أسمر) 👑';
+    async function createRoom(){
+        let code=Math.floor(1000+Math.random()*9000).toString();
+        let init=getInitialGameState();
+        await db.ref(`games/${code}`).set({board:init.board,turn:'host',winner:null,hostPieceCount:12,guestPieceCount:12,mustContinueCapture:false,continuingPiece:null});
+        currentRoomId=code; myRole='host';
+        document.getElementById('roomCodeDisplay').innerText=`🔑 رمز القصر: ${code}`;
+        document.getElementById('gameModeLabel').innerHTML='👑 أنت <strong>المضيف الملكي</strong> (أسمر) 👑';
         document.getElementById('roomScreen').classList.add('hide');
-        document.getElementById('gameScreen').style.display = 'block';
+        document.getElementById('gameScreen').style.display='block';
         subscribeToGame(code);
         refreshUI();
     }
-
-    async function joinRoom(code) {
-        if(!code || code.length!==4) { alert("رمز غير صحيح"); return; }
-        let snap = await db.ref(`games/${code}`).get();
+    async function joinRoom(code){
+        if(!code||code.length!==4){ alert("رمز غير صحيح"); return; }
+        let snap=await db.ref(`games/${code}`).get();
         if(!snap.exists()){ alert("الغرفة غير موجودة"); return; }
-        currentRoomId = code; myRole = 'guest';
-        document.getElementById('roomCodeDisplay').innerText = `🌟 انضممت إلى الغرفة: ${code}`;
-        document.getElementById('gameModeLabel').innerHTML = '🎭 أنت <strong>الضيف النبيل</strong> (بيج) 🎭';
+        currentRoomId=code; myRole='guest';
+        document.getElementById('roomCodeDisplay').innerText=`🌟 انضممت إلى الغرفة: ${code}`;
+        document.getElementById('gameModeLabel').innerHTML='🎭 أنت <strong>الضيف النبيل</strong> (بيج) 🎭';
         document.getElementById('roomScreen').classList.add('hide');
-        document.getElementById('gameScreen').style.display = 'block';
+        document.getElementById('gameScreen').style.display='block';
         subscribeToGame(code);
         refreshUI();
     }
 
     canvas.addEventListener('click', async (e) => {
-        if(!gameState || !myTurn || gameState.winner) return;
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
-        let mouseX = (e.clientX - rect.left) * scaleX;
-        let mouseY = (e.clientY - rect.top) * scaleY;
-        let col = Math.floor(mouseX / cellSize);
-        let row = Math.floor(mouseY / cellSize);
-        if(row<0 || row>=BOARD_SIZE || col<0 || col>=BOARD_SIZE) return;
-        if(selectedRow === null){
-            let piece = gameState.board[row][col];
-            let isMine = (myRole === 'host' && (piece===1||piece===3)) || (myRole === 'guest' && (piece===2||piece===4));
+        if(!gameState||!myTurn||gameState.winner) return;
+        const rect=canvas.getBoundingClientRect();
+        const scaleX=canvas.width/rect.width;
+        const scaleY=canvas.height/rect.height;
+        let mouseX=(e.clientX-rect.left)*scaleX;
+        let mouseY=(e.clientY-rect.top)*scaleY;
+        let col=Math.floor(mouseX/cellSize);
+        let row=Math.floor(mouseY/cellSize);
+        if(row<0||row>=BOARD_SIZE||col<0||col>=BOARD_SIZE) return;
+        if(selectedRow===null){
+            let piece=gameState.board[row][col];
+            let isMine=(myRole==='host' && (piece===1||piece===3))||(myRole==='guest' && (piece===2||piece===4));
             if(isMine && piece!==0){
-                if(gameState.mustContinueCapture && gameState.continuingPiece && (row!==gameState.continuingPiece.row || col!==gameState.continuingPiece.col)) return;
-                selectedRow = row; selectedCol = col; drawBoard();
+                if(gameState.mustContinueCapture && gameState.continuingPiece && (row!==gameState.continuingPiece.row||col!==gameState.continuingPiece.col)) return;
+                selectedRow=row; selectedCol=col; drawBoard();
             }
         } else {
-            let captureTemp = {};
-            if(isValidMove(gameState.board, selectedRow, selectedCol, row, col, myRole, captureTemp)){
-                let captured = (captureTemp.capturedRow !== undefined) ? {capturedRow: captureTemp.capturedRow, capturedCol: captureTemp.capturedCol} : null;
-                await sendMoveWithCapture(selectedRow, selectedCol, row, col, captured);
+            let captureTemp={};
+            if(isValidMove(gameState.board,selectedRow,selectedCol,row,col,myRole,captureTemp)){
+                let captured=(captureTemp.capturedRow!==undefined)?{capturedRow:captureTemp.capturedRow,capturedCol:captureTemp.capturedCol}:null;
+                await sendMoveWithCapture(selectedRow,selectedCol,row,col,captured);
             }
-            selectedRow = null; drawBoard();
+            selectedRow=null; drawBoard();
         }
     });
+    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); const touch=e.touches[0]; const fakeEvent={clientX:touch.clientX,clientY:touch.clientY}; canvas.dispatchEvent(new MouseEvent('click',{clientX:touch.clientX,clientY:touch.clientY})); }, {passive:false});
 
-    document.getElementById('hostBtn').onclick = () => { if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); createRoom(); };
-    document.getElementById('joinBtn').onclick = () => { if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); let code = document.getElementById('joinCodeInput').value.trim(); joinRoom(code); };
-    document.getElementById('leaveGameBtn').onclick = () => leaveGame();
-    document.getElementById('soundToggleBtn').onclick = () => { soundEnabled = !soundEnabled; document.getElementById('soundToggleBtn').innerHTML = soundEnabled ? '🔊' : '🔇'; };
-
-    function resizeCanvas() { let sz = Math.min(540, window.innerWidth - 90); canvas.width = sz; canvas.height = sz; cellSize = sz/BOARD_SIZE; if(gameState) drawBoard(); }
-    window.addEventListener('resize', resizeCanvas);
+    document.getElementById('hostBtn').onclick=()=>{ initAudio(); if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); createRoom(); };
+    document.getElementById('joinBtn').onclick=()=>{ initAudio(); if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); let code=document.getElementById('joinCodeInput').value.trim(); joinRoom(code); };
+    document.getElementById('leaveGameBtn').onclick=()=>leaveGame();
+    document.getElementById('soundToggleBtn').onclick=()=>{ soundEnabled=!soundEnabled; document.getElementById('soundToggleBtn').innerHTML=soundEnabled?'🔊':'🔇'; };
+    function resizeCanvas(){ let maxW=Math.min(window.innerWidth-48, 540); canvas.width=maxW; canvas.height=maxW; cellSize=maxW/BOARD_SIZE; if(gameState) drawBoard(); }
+    window.addEventListener('resize',resizeCanvas);
     resizeCanvas();
-    document.body.addEventListener('click', () => { if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); });
+    document.body.addEventListener('click',()=>{ if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); });
 </script>
 </body>
 </html>
